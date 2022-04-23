@@ -2,6 +2,7 @@ package com.cursoUdemy.apiJunit5.service;
 
 import com.cursoUdemy.apiJunit5.model.User;
 import com.cursoUdemy.apiJunit5.repository.UserRepository;
+import com.cursoUdemy.apiJunit5.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +15,6 @@ public class UserService {
     private UserRepository userRepository;
 
     public User findById(Long id){
-        Optional<User> userOptional = userRepository.findById(id);
-        if(userOptional.isEmpty()){
-
-        }
-        return userOptional.get();
+        return userRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Usuario não encontrado"));
     }
 }
