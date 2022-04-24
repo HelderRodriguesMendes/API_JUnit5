@@ -38,6 +38,11 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public void delete(Long id){
+        findById(id);
+        userRepository.deleteById(id);
+    }
+
     private void validEmail(User user){
         Optional<User> userOptional = userRepository.findByEmail(user.getEmail());
         if(userOptional.isPresent() && !userOptional.get().getId().equals(user.getId())){
