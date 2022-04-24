@@ -17,7 +17,7 @@ public class UserService {
     private UserRepository userRepository;
 
     public User save(User user){
-        validEmail(user.getEmail());
+        validEmail(user);
         return userRepository.save(user);
     }
 
@@ -33,9 +33,14 @@ public class UserService {
         return userRepository.findBynameLike("%"+name+"%");
     }
 
-    private void validEmail(String email){
-        Optional<User> userOptional = userRepository.findByEmail(email);
-        if(userOptional.isPresent()){
+    public User update(User user){
+        validEmail(user);
+        return userRepository.save(user);
+    }
+
+    private void validEmail(User user){
+        Optional<User> userOptional = userRepository.findByEmail(user.getEmail());
+        if(userOptional.isPresent() && !userOptional.get().getId().equals(user.getId())){
             throw new DataIntegratyViolationException("O email informado já esta cadastrado");
         }
     }

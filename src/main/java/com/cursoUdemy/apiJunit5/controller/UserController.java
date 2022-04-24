@@ -48,4 +48,11 @@ public class UserController {
 
         return new ResponseEntity<>(userDTOS, HttpStatus.OK);
     }
+
+    @PutMapping("/upadate/{id}")
+    public ResponseEntity<UserDTO> upadate(@PathVariable Long id, @RequestBody UserDTO userDTO){
+        userDTO.setId(id);
+        User user = userService.update(mapper.map(userDTO, User.class));
+        return  new ResponseEntity<>(mapper.map(user, UserDTO.class), HttpStatus.CREATED);
+    }
 }
