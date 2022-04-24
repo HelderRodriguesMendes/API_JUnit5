@@ -1,5 +1,6 @@
 package com.cursoUdemy.apiJunit5.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,8 @@ public class User implements Serializable {
 
     @Column(unique = true)
     private String email;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // libera o acesso ao atributo somente para escrita
     private String password;
 
     public User(String name, String email, String password) {

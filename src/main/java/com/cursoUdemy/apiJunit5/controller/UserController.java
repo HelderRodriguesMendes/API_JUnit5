@@ -23,6 +23,12 @@ public class UserController {
     @Autowired
     private ModelMapper mapper;
 
+    @PostMapping("/save")
+    public ResponseEntity<UserDTO> save(@RequestBody UserDTO userDTO){
+        User user = userService.save(mapper.map(userDTO, User.class));
+        return  new ResponseEntity<>(mapper.map(user, UserDTO.class), HttpStatus.CREATED);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> findById(@PathVariable Long id){
         User user = userService.findById(id);
