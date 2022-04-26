@@ -2,7 +2,7 @@ package com.cursoUdemy.apiJunit5.service;
 
 import com.cursoUdemy.apiJunit5.model.User;
 import com.cursoUdemy.apiJunit5.repository.UserRepository;
-import org.junit.jupiter.api.Assertions;
+import com.cursoUdemy.apiJunit5.service.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -14,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.anyLong;
 
 @SpringBootTest
 class UserServiceTest {
@@ -44,16 +46,26 @@ class UserServiceTest {
 
     @Test
     void whenFindByIdThenReturnAnUserInstance() {
-        Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(userOptional);
+        when(userRepository.findById(anyLong())).thenReturn(userOptional);
         User response = userService.findById(ID);
 
-        Assertions.assertNotNull(response);
-        Assertions.assertEquals(User.class, response.getClass());
-        Assertions.assertEquals(ID, response.getId());
-        Assertions.assertEquals(NAME, response.getName());
-        Assertions.assertEquals(EMAIL, response.getEmail());
-        Assertions.assertEquals(PASSWORD, response.getPassword());
+        assertNotNull(response);
+        assertEquals(User.class, response.getClass());
+        assertEquals(ID, response.getId());
+        assertEquals(NAME, response.getName());
+        assertEquals(EMAIL, response.getEmail());
+        assertEquals(PASSWORD, response.getPassword());
+    }
 
+    @Test
+    void whenFindByIdThenReturnAnObjectNotFoundException(){
+        when(userRepository.findById(anyLong())).thenThrow(new ObjectNotFoundException("Usuario não encontrado"));
+        try {
+            userService.findById(ID);
+        }catch (Exception e){
+            assertEquals(ObjectNotFoundException.class, e.getClass());
+            assertEquals("Usuario não encontrado", e.getMessage());
+        }
     }
 
     @Test
