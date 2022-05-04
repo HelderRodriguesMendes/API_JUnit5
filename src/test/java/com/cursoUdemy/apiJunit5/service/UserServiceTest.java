@@ -2,6 +2,7 @@ package com.cursoUdemy.apiJunit5.service;
 
 import com.cursoUdemy.apiJunit5.model.User;
 import com.cursoUdemy.apiJunit5.repository.UserRepository;
+import com.cursoUdemy.apiJunit5.service.exceptions.DataIntegratyViolationException;
 import com.cursoUdemy.apiJunit5.service.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.anyLong;
 
@@ -53,6 +55,19 @@ class UserServiceTest {
         assertEquals(NAME, response.getName());
         assertEquals(EMAIL, response.getEmail());
         assertEquals(PASSWORD, response.getPassword());
+    }
+
+    @Test
+    void whenCreateThenReturnAnDataIntegrityViolationException() {
+        when(userRepository.findByEmail(anyString())).thenReturn(userOptional);
+
+        try{
+            user.setId(2L);
+            userService.save(user);
+        }catch (Exception e){
+            assertEquals(DataIntegratyViolationException.class, e.getClass());
+            assertEquals("O email informado já esta cadastrado", e.getMessage());
+        }
     }
 
     @Test
