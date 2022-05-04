@@ -30,7 +30,7 @@ public class UserService {
     }
 
     public List<User> findByName(String name){
-        return userRepository.findBynameLike("%"+name+"%");
+        return userRepository.findByName(name);
     }
 
     public User update(User user){

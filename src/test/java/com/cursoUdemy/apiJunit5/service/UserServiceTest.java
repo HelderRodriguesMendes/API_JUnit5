@@ -87,7 +87,18 @@ class UserServiceTest {
     }
 
     @Test
-    void findByName() {
+    void whenFindByNameThenReturnAnUserInstance() {
+        when(userRepository.findByName("Cassio")).thenReturn(List.of(user));
+        List<User> users = userService.findByName("Cassio");
+        assertNotNull(users);
+        assertEquals(1, users.size());
+        assertEquals(User.class, users.get(INDEX).getClass());
+
+        assertEquals(ID, users.get(INDEX).getId());
+        assertEquals(NAME, users.get(INDEX).getName());
+        assertEquals(EMAIL, users.get(INDEX).getEmail());
+        assertEquals(PASSWORD, users.get(INDEX).getPassword());
+
     }
 
     @Test
