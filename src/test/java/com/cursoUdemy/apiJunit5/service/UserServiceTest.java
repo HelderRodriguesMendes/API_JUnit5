@@ -157,6 +157,17 @@ class UserServiceTest {
         verify(userRepository, times(1)).deleteById(anyLong());
     }
 
+    @Test
+    void deleteWithObjectNotFoundEsception(){
+        when(userRepository.findById(anyLong())).thenThrow(new ObjectNotFoundException("Usuario não encontrado"));
+        try{
+            userService.delete(ID);
+        }catch (Exception e){
+            assertEquals(ObjectNotFoundException.class, e.getClass());
+            assertEquals("Usuario não encontrado", e.getMessage());
+        }
+    }
+
     private void startUser(){
         user = new User(ID, NAME, EMAIL, PASSWORD);
         userOptional = Optional.of(new User(ID, NAME, EMAIL, PASSWORD));
