@@ -1,6 +1,7 @@
 package com.cursoUdemy.apiJunit5.controller;
 
 import com.cursoUdemy.apiJunit5.model.User;
+import com.cursoUdemy.apiJunit5.model.dto.UserDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,6 +20,10 @@ class UserControllerTest {
     public static final String EMAIL = "cassio@teste.com";
     public static final String PASSWORD = "cassio123";
     public static final int INDEX = 0;
+
+    private User user;
+
+    private UserDTO userDTO;
 
     @InjectMocks
     private UserController userController;
@@ -55,6 +60,6 @@ class UserControllerTest {
 
     private void startUser(){
         user = new User(ID, NAME, EMAIL, PASSWORD);
-        userOptional = Optional.of(new User(ID, NAME, EMAIL, PASSWORD));
+        userDTO = new UserDTO(ID, NAME, EMAIL, PASSWORD);
     }
 }
