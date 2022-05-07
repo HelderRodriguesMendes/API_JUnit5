@@ -14,6 +14,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -66,11 +69,17 @@ class UserControllerTest {
     }
 
     @Test
-    void findAll() {
-    }
+    void whenFindAllThenReturnAlistOfUserDTO() {
+        when(userService.findAll()).thenReturn(List.of(user));
+        when(mapper.map(any(), any())).thenReturn(userDTO);
 
-    @Test
-    void findByName() {
+        ResponseEntity<List<UserDTO>> response = userController.findAll();
+
+        assertNotNull(response);
+        assertNotNull(response.getBody());
+        assertEquals(ResponseEntity.class, response.getClass());
+        assertEquals(ArrayList.class, response.getBody().getClass());
+        assertEquals(UserDTO.class, response.getBody().get(INDEX).getClass());
     }
 
     @Test
