@@ -1,5 +1,6 @@
 package com.cursoUdemy.apiJunit5.controller.exceptions;
 
+import com.cursoUdemy.apiJunit5.service.exceptions.DataIntegratyViolationException;
 import com.cursoUdemy.apiJunit5.service.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,6 +38,14 @@ class ResourceEcxeptionHandlerTest {
     }
 
     @Test
-    void dataIntegratyViolationException() {
+    void dataIntegrityViolationException() {
+        ResponseEntity<StandarError> response = ecxeptionHandler.dataIntegrityViolationException(new DataIntegratyViolationException("O email informado já esta cadastrado"), new MockHttpServletRequest());
+        assertNotNull(response);
+        assertNotNull(response.getBody());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(ResponseEntity.class, response.getClass());
+        assertEquals(StandarError.class, response.getBody().getClass());
+        assertEquals("O email informado já esta cadastrado", response.getBody().getError());
+        assertEquals(400, response.getBody().getStatus());
     }
 }
