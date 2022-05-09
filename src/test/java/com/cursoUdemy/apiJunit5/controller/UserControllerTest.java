@@ -114,7 +114,15 @@ class UserControllerTest {
     }
 
     @Test
-    void delete() {
+    void whenDeleteThenReturnSuccess() {
+        doNothing().when(userService).delete(anyLong());
+
+        ResponseEntity<UserDTO> response = userController.delete(ID);
+
+        assertNotNull(response);
+        assertEquals(ResponseEntity.class, response.getClass());
+        verify(userService, times(1)).delete(anyLong());
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
     }
 
     private void startUser(){
