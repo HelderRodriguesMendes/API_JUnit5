@@ -12,16 +12,20 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "user")
 public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "name")
     private String name;
 
-    @Column(unique = true)
+    @Column(unique = true, name = "email")
     private String email;
 
+    @Column(name = "password")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // libera o acesso ao atributo somente para escrita
     private String password;
 
